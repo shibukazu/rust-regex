@@ -1,4 +1,5 @@
 mod codegen;
+mod evaluator;
 mod parser;
 
 use std::fmt::{self, Display};
@@ -19,4 +20,11 @@ impl Display for Instruction {
             Instruction::Match => write!(f, "Match"),
         }
     }
+}
+
+pub fn do_matching(expr: &str, line: &str) -> Result<bool, Box<dyn std::error::Error>> {
+    let ast = parser::parse(expr)?;
+    let instructions = codegen::generate_code(&ast)?;
+    let line = line.chars().collect::<Vec<char>>();
+    Ok(evaluator::eval(&instructions, &line)?)
 }
