@@ -1,25 +1,18 @@
 use super::Instruction;
 use std::{
-    collections::VecDeque,
     error::Error,
     fmt::{self, Display},
 };
 
 #[derive(Debug)]
 pub enum EvalError {
-    PCOverflow,
-    SPOverflow,
     InvalidPC,
-    InvalidContext,
 }
 
 impl Display for EvalError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            EvalError::PCOverflow => write!(f, "Program counter overflow"),
-            EvalError::SPOverflow => write!(f, "Stack pointer overflow"),
             EvalError::InvalidPC => write!(f, "Invalid program counter"),
-            EvalError::InvalidContext => write!(f, "Invalid context"),
         }
     }
 }

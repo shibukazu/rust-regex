@@ -4,7 +4,6 @@ use std::fmt::{self, Display};
 
 #[derive(Debug)]
 pub enum CodegenError {
-    PCOverflow,
     FailStar,
     FailOr,
     FailQuestion,
@@ -13,7 +12,6 @@ pub enum CodegenError {
 impl Display for CodegenError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            CodegenError::PCOverflow => write!(f, "Program counter overflow"),
             CodegenError::FailStar => write!(f, "Failed to generate code for star"),
             CodegenError::FailOr => write!(f, "Failed to generate code for or"),
             CodegenError::FailQuestion => write!(f, "Failed to generate code for question"),

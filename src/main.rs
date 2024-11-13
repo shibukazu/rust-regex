@@ -35,3 +35,33 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::engine::do_matching;
+
+    #[test]
+    fn matching() {
+        // ケース: パースエラー
+        assert!(do_matching("+b", "bbb").is_err());
+        assert!(do_matching("*b", "bbb").is_err());
+        assert!(do_matching("?b", "bbb").is_err());
+        assert!(do_matching("|b", "bbb").is_err());
+
+        // ケース: パース成功、マッチ成功
+        assert!(do_matching("abc|def", "abc").unwrap());
+        assert!(do_matching("abc|def", "def").unwrap());
+        assert!(do_matching("(abc)*", "abcabc").unwrap());
+        assert!(do_matching("(abc)*", "").unwrap());
+        assert!(do_matching("(abc)?", "abc").unwrap());
+        assert!(do_matching("(abc)?", "").unwrap());
+        assert!(do_matching("(abc)+", "abcabc").unwrap());
+        assert!(do_matching("(abc)+", "abc").unwrap());
+        assert!(do_matching("a|b|c", "b").unwrap());
+
+        // ケース: パース成功、マッチ失敗
+        assert!(!do_matching("abc|def", "ghi").unwrap());
+        assert!(!do_matching("(ab|cd)+", "").unwrap());
+        assert!(!do_matching("abc?", "acb").unwrap());
+    }
+}
