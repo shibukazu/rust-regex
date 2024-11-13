@@ -26,5 +26,9 @@ pub fn do_matching(expr: &str, line: &str) -> Result<bool, Box<dyn std::error::E
     let ast = parser::parse(expr)?;
     let instructions = codegen::generate_code(&ast)?;
     let line = line.chars().collect::<Vec<char>>();
+    println!(
+        "line: {:?}, expr: {:?}, instructions: {:?}",
+        line, expr, instructions
+    );
     Ok(evaluator::eval(&instructions, &line)?)
 }

@@ -61,7 +61,8 @@ mod tests {
 
         // ケース: パース成功、マッチ失敗
         assert!(!do_matching("abc|def", "ghi").unwrap());
-        assert!(!do_matching("(ab|cd)+", "").unwrap());
+        assert!(!do_matching("a+", "").unwrap());
+        assert!(!do_matching("a+", "b").unwrap());
         assert!(!do_matching("abc?", "acb").unwrap());
     }
 }
